@@ -1,17 +1,15 @@
 import { notFound } from "next/navigation";
-import { allDocs } from "contentlayer/generated";
-
-import { getTableOfContents } from "@/lib/toc";
-import { Mdx } from "@/components/mdx-components";
-import { DocsPageHeader } from "@/components/page-header";
-import { DocsPager } from "@/components/pager";
-import { DashboardTableOfContents } from "@/components/toc";
-
-import "@/styles/mdx.css";
 import { Metadata } from "next";
 
 import { env } from "@/env.mjs";
+
+import { Mdx } from "@/components/Mdx";
+import { DocsPageHeader } from "@/components/PageHeader";
+import { DashboardTableOfContents } from "@/components/Toc";
+import { getTableOfContents } from "@/lib/toc";
+import { allDocs } from "contentlayer/generated";
 import { absoluteUrl } from "@/lib/utils";
+import { DocsPager } from "@/components/Pager";
 
 interface DocPageProps {
   params: {
@@ -19,7 +17,8 @@ interface DocPageProps {
   };
 }
 
-async function getDocFromParams(params: { slug: string[] }) {
+// * Get doc with the same slug as the URL params
+async function getDocFromParams({ params }: DocPageProps) {
   const slug = params.slug?.join("/") || "";
   const doc = allDocs.find((doc) => doc.slugAsParams === slug);
 
@@ -30,10 +29,11 @@ async function getDocFromParams(params: { slug: string[] }) {
   return doc;
 }
 
+// * Generate Metadata for the doc
 export async function generateMetadata({
   params,
 }: DocPageProps): Promise<Metadata> {
-  const doc = await getDocFromParams(params);
+  const doc = await getDocFromParams({ params });
 
   if (!doc) {
     return {};
@@ -81,7 +81,7 @@ export async function generateStaticParams(): Promise<
 }
 
 export default async function DocPage({ params }: DocPageProps) {
-  const doc = await getDocFromParams(params);
+  const doc = await getDocFromParams({ params });
 
   if (!doc) {
     notFound();

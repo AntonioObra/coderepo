@@ -1,13 +1,14 @@
 import { SiteConfig } from "@/types";
 
 export const siteConfig: SiteConfig = {
-  name: "coderepo",
+  name: "CodeRepo",
   description:
-    "An open source application built using the new router, server components and everything new in Next.js 13.",
-  url: "https://tx.shadcn.com",
-  ogImage: "https://tx.shadcn.com/og.jpg",
+    "A collection of code examples and snippets that cover various aspects of web development",
+  url: "https://coderepo.vercel.app",
+  ogImage: "https://coderepo.vercel.app/og.png",
   links: {
-    twitter: "https://twitter.com/shadcn",
     github: "https://github.com/AntonioObra/coderepo",
+    karloPage: "https://coderepo.vercel.app/",
+    antonioPage: "https://blog.obradovic.dev/",
   },
 };

@@ -1,19 +1,16 @@
 import Link from "next/link";
-import { notFound } from "next/navigation";
-import { allGuides } from "contentlayer/generated";
-
-import { getTableOfContents } from "@/lib/toc";
-import { Icons } from "@/components/icons";
-import { Mdx } from "@/components/mdx-components";
-import { DocsPageHeader } from "@/components/page-header";
-import { DashboardTableOfContents } from "@/components/toc";
-
-import "@/styles/mdx.css";
 import { Metadata } from "next";
+import { notFound } from "next/navigation";
 
+import { Icons } from "@/components/Icons";
+import { DocsPageHeader } from "@/components/PageHeader";
+import { allGuides } from "contentlayer/generated";
 import { env } from "@/env.mjs";
 import { absoluteUrl, cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
+import { getTableOfContents } from "@/lib/toc";
+import { Mdx } from "@/components/Mdx";
+import { DashboardTableOfContents } from "@/components/Toc";
 
 interface GuidePageProps {
   params: {
@@ -21,7 +18,8 @@ interface GuidePageProps {
   };
 }
 
-async function getGuideFromParams(params: { slug: string[] }) {
+// * Get guide with the same slug as the URL params
+async function getGuideFromParams({ params }: GuidePageProps) {
   const slug = params?.slug?.join("/");
   const guide = allGuides.find((guide) => guide.slugAsParams === slug);
 
@@ -32,10 +30,11 @@ async function getGuideFromParams(params: { slug: string[] }) {
   return guide;
 }
 
+// * Generate Metadata for the guide
 export async function generateMetadata({
   params,
 }: GuidePageProps): Promise<Metadata> {
-  const guide = await getGuideFromParams(params);
+  const guide = await getGuideFromParams({ params });
 
   if (!guide) {
     return {};
@@ -74,16 +73,8 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams(): Promise<
-  GuidePageProps["params"][]
-> {
-  return allGuides.map((guide) => ({
-    slug: guide.slugAsParams.split("/"),
-  }));
-}
-
 export default async function GuidePage({ params }: GuidePageProps) {
-  const guide = await getGuideFromParams(params);
+  const guide = await getGuideFromParams({ params });
 
   if (!guide) {
     notFound();

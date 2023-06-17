@@ -1,31 +1,27 @@
-import Link from "next/link"
-import { allGuides } from "contentlayer/generated"
-import { compareDesc } from "date-fns"
+import Link from "next/link";
 
-import { formatDate } from "@/lib/utils"
-import { DocsPageHeader } from "@/components/page-header"
+import { allGuides } from "contentlayer/generated";
+import { compareDesc } from "date-fns";
 
-export const metadata = {
-  title: "Guides",
-  description:
-    "This section includes end-to-end guides for developing Next.js 13 apps.",
-}
+import { DocsPageHeader } from "@/components/PageHeader";
+import { formatDate } from "@/lib/utils";
 
 export default function GuidesPage() {
   const guides = allGuides
     .filter((guide) => guide.published)
     .sort((a, b) => {
-      return compareDesc(new Date(a.date), new Date(b.date))
-    })
+      return compareDesc(new Date(a.date), new Date(b.date));
+    });
 
   return (
     <div className="py-6 lg:py-10">
       <DocsPageHeader
-        heading="Guides"
-        text="This section includes end-to-end guides for developing Next.js 13 apps."
+        heading="Comprehensive Guides for Web Development Technologies"
+        text="Empowering Aspiring Web Developers with In-Depth and Accessible Guides to Master the Cutting-Edge Technologies that Drive the Web, from HTML and CSS to JavaScript Frameworks and Beyond"
       />
+
       {guides?.length ? (
-        <div className="grid gap-4 md:grid-cols-2 md:gap-6">
+        <div className="grid gap-4 md:grid-cols-3 md:gap-6">
           {guides.map((guide) => (
             <article
               key={guide._id}
@@ -38,9 +34,9 @@ export default function GuidesPage() {
               )}
               <div className="flex flex-col justify-between space-y-4">
                 <div className="space-y-2">
-                  <h2 className="text-xl font-medium tracking-tight">
+                  <h1 className="text-xl font-medium tracking-tight">
                     {guide.title}
-                  </h2>
+                  </h1>
                   {guide.description && (
                     <p className="text-muted-foreground">{guide.description}</p>
                   )}
@@ -61,5 +57,5 @@ export default function GuidesPage() {
         <p>No guides published.</p>
       )}
     </div>
-  )
+  );
 }

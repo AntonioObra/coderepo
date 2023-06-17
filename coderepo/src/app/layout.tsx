@@ -2,26 +2,25 @@ import { Inter as FontSans } from "next/font/google";
 import localFont from "next/font/local";
 
 import "@/styles/globals.css";
-import { siteConfig } from "@/config/site";
 import { cn } from "@/lib/utils";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Analytics } from "@/components/analytics";
+import { ThemeProvider } from "@/components/ThemeProvider";
+import { Analytics } from "@/components/Analytics";
 
+import { siteConfig } from "@/config/site";
+
+// * Fonts
 const fontSans = FontSans({
+  weight: ["400", "500", "700"],
   subsets: ["latin"],
   variable: "--font-sans",
 });
 
-// Font files can be colocated inside of `pages`
 const fontHeading = localFont({
   src: "../assets/fonts/CalSans-SemiBold.woff2",
   variable: "--font-heading",
 });
 
-interface RootLayoutProps {
-  children: React.ReactNode;
-}
-
+// * Metadata
 export const metadata = {
   title: {
     default: siteConfig.name,
@@ -32,16 +31,23 @@ export const metadata = {
     "Next.js",
     "React",
     "Tailwind CSS",
-    "Server Components",
-    "Radix UI",
+    "CodeRepo",
+    "Karlo Jurković",
+    "Antonio Obradović",
+    "coderepo",
+    "web development",
   ],
   authors: [
     {
-      name: "shadcn",
-      url: "https://shadcn.com",
+      name: "Karlo Jurković",
+      url: "https://coderepo.vercel.app",
+    },
+    {
+      name: "Antonio Obradović",
+      url: "https://blog.obradovic.dev",
     },
   ],
-  creator: "shadcn",
+  creator: "Karlo Jurković & Antonio Obradović",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "white" },
     { media: "(prefers-color-scheme: dark)", color: "black" },
@@ -58,8 +64,8 @@ export const metadata = {
     card: "summary_large_image",
     title: siteConfig.name,
     description: siteConfig.description,
-    images: [`${siteConfig.url}/og.jpg`],
-    creator: "@shadcn",
+    images: [`${siteConfig.url}/og.png`],
+    creator: "@antonioobra8",
   },
   icons: {
     icon: "/favicon.ico",
@@ -69,9 +75,14 @@ export const metadata = {
   manifest: `${siteConfig.url}/site.webmanifest`,
 };
 
+interface RootLayoutProps {
+  children: React.ReactNode;
+}
+
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en">
+      <head suppressHydrationWarning />
       <body
         className={cn(
           "min-h-screen bg-background font-sans antialiased",
@@ -79,6 +90,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
           fontHeading.variable
         )}
       >
+        {/* // * ThemeProvider used for no flashing white screen on dark mode */}
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           {children}
           <Analytics />
